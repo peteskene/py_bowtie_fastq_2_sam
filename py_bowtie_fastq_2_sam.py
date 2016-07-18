@@ -8,6 +8,8 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
                           output_folder=None, data_output_name=None,  spike_output_name=None, barcode=None,
                           data_species='hg19', spike_species='dm6', align_spike=True):
     """
+    Script written by Pete Skene (peteskene@gmail.com). Free for academic use only.
+    
     Will take group of fastq files from a single sample from paired end sequencing and perform mapping based on standard Henikoff lab parameters.
     Option for aligning fastq files to 2 species (data_species and spike_species)
     
