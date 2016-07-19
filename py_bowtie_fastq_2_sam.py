@@ -1,3 +1,4 @@
+# %load /home/pskene/bin/py_bowtie_fastq_2_sam.py
 from subprocess import check_output
 import os
 import glob
@@ -8,7 +9,7 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
                           output_folder=None, data_output_name=None,  spike_output_name=None, barcode=None,
                           data_species='hg19', spike_species='dm6', align_spike=True):
     """
-    Script written by Pete Skene (peteskene@gmail.com). Free for academic use only.
+    Written by Pete Skene (peteskene@gmail.com). Free for academic use only.
     
     Will take group of fastq files from a single sample from paired end sequencing and perform mapping based on standard Henikoff lab parameters.
     Option for aligning fastq files to 2 species (data_species and spike_species)
@@ -28,6 +29,7 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
     Currently supported bowtie2Index: human hg19 (type 'hg19')
                                       Drosophila dm6 (type 'dm6')
                                       Budding yeast (type 'sacCer3')
+                                      mouse mm9 (type 'mm9')
     ____________________
     Parameters:
     
@@ -187,22 +189,25 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
             print '\n'
             print 'Will run bowtie2 on these user-specified lists. Please ensure the orders of each list match.'
     
-	#create output .sam and .sam.SPIKE filenames
+    #create output .sam and .sam.SPIKE filenames
     if data_output_name != None:
         sam_name = data_output_name
-        
-    if spike_output_name != None:
-        sam_name_spike = spike_output_name
         
     else:
         if manual_entry==False and (barcode==None or type(barcode)!=str):
             return 'If output_name is not specified, barcode must be provided to generate ouput filename for sam file'
         if manual_entry==True:
             return 'If manual entry is set to True, output names must be specified'
+            
         
-        sam_name = input_files[0].split('_' +barcode)[0] + '.sam'
-        
-        sam_name_spike = sam_name + '.' + spike_species
+    if spike_output_name != None:
+        sam_name_spike = spike_output_name
+
+    elif align_spike == True:
+        if manual_entry==False and (barcode==None or type(barcode)!=str):
+            return 'If output_name is not specified, barcode must be provided to generate ouput filename for sam file'
+        if manual_entry==True:
+            return 'If manual entry is set to True, output names must be specified'
     
     print 'Output sam filename for data_species: ' + sam_name
     
@@ -224,7 +229,10 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
     elif data_species == 'sacCer3':
         bowtie2_data_index = '/shared/biodata/ngs/Reference/iGenomes/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/Bowtie2Index/genome'
         
-    elif data_species not in ['hg19', 'dm6', 'sacCer3']:
+    elif data_species == 'mm9':
+            bowtie2_data_index = '/shared/biodata/ngs/Reference/iGenomes/Mus_musculus/UCSC/mm9/Sequence/Bowtie2Index/genome'
+        
+    elif data_species not in ['hg19', 'dm6', 'sacCer3', 'mm9']:
         return 'Bowtie index unavailable for this species, need to create bowtie index separately'
     
     print 'Bowtie index for data files found at:'
@@ -270,9 +278,12 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
     
         elif spike_species == 'sacCer3':
             bowtie2_spike_index = '/shared/biodata/ngs/Reference/iGenomes/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/Bowtie2Index/genome'
+            
+        elif spike_species == 'mm9':
+            bowtie2_spike_index = '/shared/biodata/ngs/Reference/iGenomes/Mus_musculus/UCSC/mm9/Sequence/Bowtie2Index/genome'
         
 
-        elif spike_species not in ['hg19', 'dm6', 'sacCer3']:
+        elif spike_species not in ['hg19', 'dm6', 'sacCer3', 'mm9']:
             return 'Bowtie index unavailable for this species, need to create bowtie index separately'
     
     
