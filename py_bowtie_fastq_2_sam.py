@@ -228,7 +228,7 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
         bowtie2_data_index = '/shared/biodata/ngs/Reference/iGenomes/Homo_sapiens/UCSC/hg19/Sequence/Bowtie2Index/genome'
     
     elif data_species == 'dm6':
-        bowtie2_data_index = '~/henikoff/solexa/Bowtie2/dmel_r6_06'
+        bowtie2_data_index = '/shared/biodata/ngs/Reference/iGenomes/Drosophila_melanogaster/UCSC/dm6/Sequence/Bowtie2Index/genome'
         
     elif data_species == 'sacCer3':
         bowtie2_data_index = '/shared/biodata/ngs/Reference/iGenomes/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/Bowtie2Index/genome'
@@ -275,7 +275,7 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
     if align_spike==True:
         print 'Spike_species set to: ' + spike_species
         if spike_species == 'dm6':
-            bowtie2_spike_index = '~/henikoff/solexa/Bowtie2/dmel_r6_06'
+            bowtie2_spike_index = '/shared/biodata/ngs/Reference/iGenomes/Drosophila_melanogaster/UCSC/dm6/Sequence/Bowtie2Index/genome'
      
         elif spike_species == 'hg19':
             bowtie2_spike_index = '/shared/biodata/ngs/Reference/iGenomes/Homo_sapiens/UCSC/hg19/Sequence/Bowtie2Index/genome'
