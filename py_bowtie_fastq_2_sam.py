@@ -199,6 +199,8 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
         if manual_entry==True:
             return 'If manual entry is set to True, output names must be specified'
             
+        sam_name = input_files[0].split('_' +barcode)[0] + '.sam'
+            
         
     if spike_output_name != None:
         sam_name_spike = spike_output_name
@@ -208,6 +210,8 @@ def py_bowtie_fastq_2_sam(input_type='fastq.gz', manual_entry=False, list_R1=[],
             return 'If output_name is not specified, barcode must be provided to generate ouput filename for sam file'
         if manual_entry==True:
             return 'If manual entry is set to True, output names must be specified'
+            
+        sam_name_spike = sam_name + '.' + spike_species
     
     print 'Output sam filename for data_species: ' + sam_name
     
